@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebsiteMinion.Contracts
+﻿namespace WebsiteMinion.Contracts
 {
-    internal class IRegisterWebsites
+    public interface IRegisterWebsites
     {
+        Task RegisterWebsiteAsync(string websiteUrl);
     }
 }

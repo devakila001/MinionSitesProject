@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static WebsiteMinion.Common.Constants;
 
 namespace WebsiteMinion.Models;
 
+[Table(name: Tables.WebsiteStatusHistory, Schema = Schemas.Main)]
 public class WebsiteStatusHistory : BaseEntity
 {
     [Required]

@@ -31,7 +31,7 @@ public class RegistrationHelper
             MonitoringEnabled = true,
         };
 
-        _context.websiteInfos.Add(websiteInfo);
+        _context.Websiteinfos.Add(websiteInfo);
         await _context.SaveChangesAsync();
 
         _logger.Information($"Site registered successfully ... Site id:{nameof(websiteInfo)}={websiteInfo.Id}");

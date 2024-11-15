@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebsiteMinion.Models;
 using static WebsiteMinion.Common.Constants;
 
@@ -24,9 +19,9 @@ public class WebsiteDbContext : DbContext
 
     }
 
-    public DbSet<WebsiteInfo> websiteInfos { get; set; }
+    public DbSet<WebsiteInfo> Websiteinfos { get; set; }
 
-    public DbSet<WebsiteStatusHistory> websiteStatusHistories { get; set; }
+    public DbSet<WebsiteStatusHistory> Websitestatushistories { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -1,10 +1,5 @@
 ﻿//using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using WebsiteMinion.Contexts;
 using WebsiteMinion.Models;
 using Serilog;
@@ -28,7 +23,7 @@ namespace WebsiteMinion.Services
             ArgumentException.ThrowIfNullOrWhiteSpace(url, nameof(url));
 
 
-            var webSiteInfo = _context.websiteInfos.Where(whi => whi.WebsiteUrl == url).FirstOrDefault();
+            var webSiteInfo = _context.Websiteinfos.Where(whi => whi.WebsiteUrl == url).FirstOrDefault();
             var webSiteStausHistory = new WebsiteStatusHistory()
             {
               RequestSentAt = DateTime.UtcNow,
@@ -81,7 +76,7 @@ namespace WebsiteMinion.Services
                 webSiteStausHistory.HttpStatusCode = 0;
             }
 
-            _context.websiteStatusHistories.Add(webSiteStausHistory);
+            _context.Websitestatushistories.Add(webSiteStausHistory);
             await _context.SaveChangesAsync();
 
             return isSiteUp;
