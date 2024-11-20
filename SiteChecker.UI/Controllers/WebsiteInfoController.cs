@@ -12,22 +12,26 @@ namespace SiteChecker.UI.Controllers
 {
     public class WebsiteInfoController : Controller
     {
+        private readonly Serilog.ILogger _logger;
         private readonly WebsiteDbContext _context;
 
-        public WebsiteInfoController(WebsiteDbContext context)
+        public WebsiteInfoController(Serilog.ILogger logger, WebsiteDbContext context)
         {
+            _logger = logger;
             _context = context;
         }
 
         // GET: WebsiteInfo
         public async Task<IActionResult> Index()
         {
+            _logger.Information("Getting all website info");
             return View(await _context.Websiteinfos.ToListAsync());
         }
 
         // GET: WebsiteInfo/Details/5
         public async Task<IActionResult> Details(long? id)
         {
+            _logger.Information("Getting website info details for {id}", id);
             if (id == null)
             {
                 return NotFound();
@@ -46,6 +50,7 @@ namespace SiteChecker.UI.Controllers
         // GET: WebsiteInfo/Create
         public IActionResult Create()
         {
+            _logger.Information("Creating new website info");
             return View();
         }
 
@@ -88,6 +93,7 @@ namespace SiteChecker.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("WebsiteUrl,RegisteredAt,MonitoringEnabled,LastCheckedAt,MonitoringIntervalSeconds,Id,CreatedBy,CreatedAt,ModifiedBy,ModifiedAt")] WebsiteInfo websiteInfo)
         {
+            _logger.Information("Editing website info for {id} {@websiteInfo}", id, websiteInfo);
             if (id != websiteInfo.Id)
             {
                 return NotFound();
@@ -119,6 +125,7 @@ namespace SiteChecker.UI.Controllers
         // GET: WebsiteInfo/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
+            _logger.Information("Deleting website info for {id}", id);
             if (id == null)
             {
                 return NotFound();
@@ -139,6 +146,7 @@ namespace SiteChecker.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
+            _logger.Information("Deleting website info for {id}", id);
             var websiteInfo = await _context.Websiteinfos.FindAsync(id);
             if (websiteInfo != null)
             {

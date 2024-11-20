@@ -3,10 +3,11 @@ using System.Net;
 using WebsiteMinion.Contexts;
 using WebsiteMinion.Models;
 using Serilog;
+using WebsiteMinion.Contracts;
 
 namespace WebsiteMinion.Services
 {
-    public class WebsiteCheckerService      
+    public class WebsiteCheckerService : IWebsiteChecker   
     {
         private readonly ILogger _logger;
         private readonly WebsiteDbContext _context;
@@ -14,6 +15,8 @@ namespace WebsiteMinion.Services
         {   
             _logger = logger;
             _context = websiteDbContext;
+           
+
         }
 
         public async Task<bool> CheckExistsSitesAsync(string url)

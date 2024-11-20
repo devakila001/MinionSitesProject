@@ -1,3 +1,9 @@
+using Serilog;
+using WebsiteMinion.Configs;
+using WebsiteMinion.Contexts;
+using WebsiteMinion.Contracts;
+using WebsiteMinion.Services;
+
 namespace SiteChecker.UI
 {
     public class Program
@@ -7,8 +13,32 @@ namespace SiteChecker.UI
             var builder = WebApplication.CreateBuilder(args);
 
             //Add support to logging with SERILOG
-            //builder.Host.UseSerilog((context, configuration) =>
-             // configuration.ReadFrom.Configuration(context.Configuration));
+            builder.Host.UseSerilog((context, configuration) =>
+             configuration.ReadFrom.Configuration(context.Configuration));
+
+            var jobSettings = builder.Configuration.GetSection("JobSettings").Get<JobSettings>();
+
+            builder.Services.Configure<JobSettings>(builder.Configuration.GetSection("JobSettings"));
+
+            if (jobSettings!.IntervalSeconds > 0)
+            {
+                builder.Services.AddSingleton<WebsiteDbContext>();
+            }
+            else
+            {
+                builder.Services.AddDbContext<WebsiteDbContext>();
+            }
+
+            if (jobSettings!.IntervalSeconds > 0)
+            {
+               builder.Services.AddSingleton<IWebsiteChecker, WebsiteCheckerService>();
+                // Register the background job service
+                builder.Services.AddHostedService<TimedJobService>();
+            }
+            else
+            {
+                builder.Services.AddScoped<IWebsiteChecker, WebsiteCheckerService>();
+            }
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -26,7 +56,7 @@ namespace SiteChecker.UI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             //Add support to logging request with SERILOG
-           // app.UseSerilogRequestLogging();
+            app.UseSerilogRequestLogging();
             app.UseRouting();
 
             app.UseAuthorization();
